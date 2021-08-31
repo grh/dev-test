@@ -63,7 +63,7 @@ class LoanParameter
 	
 	/**
 	 *
-	 * Originatio fee is 5% of the first $5000, and then 2% of the rest, rounded to the nearest dollar
+	 * Origination fee is 5% of the first $5000, and then 2% of the rest, rounded to the nearest dollar
 	 *
 	 * @param  int  $amount
 	 *
