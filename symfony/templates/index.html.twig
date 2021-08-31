@@ -1,10 +1,13 @@
+{# templates/index.html.twig #}
+{# @var form \Symfony\Component\Form\FormView #}
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
 
 	<h1>Loan Estimation Tool</h1>
 	<div class="content">
-		
+		{{ form(form) }}
 	</div>
 
 {% endblock %}
