@@ -38,6 +38,7 @@ class LoanType extends AbstractType
 			    ],
 		    ])
 		    ->add('creditScore', ChoiceType::class, [
+		    	//  In a real application these options would come from either the database or another component, for the purpose of this exercise repeating them helps to keep the scope limited 
 			    'choices'  => [
 				    'Poor (350-629)' => 'poor',
 				    'Average (630-689)' => 'average',
