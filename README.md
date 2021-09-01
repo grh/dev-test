@@ -4,6 +4,7 @@ This is a simple web application that displays estimated loan details for a user
 If you need a dev environment, let us know, and we can set up an aws instance for you to work on.
 
 The requested changes are:
+
 1. Apply some styling to the page
 	1. Bootstrap 4 is included, but feel free to replace it
 2. Add a field for the user to input their monthly gross income, and add check that the loan payment is not more than 15% of their monthly income
