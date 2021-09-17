@@ -7,13 +7,27 @@
 
 {% block body %}
 
-	<h1>Loan Estimation Tool</h1>
+    <div class="row">
+        <div class="col-12 pb-2 pt-2 pl-2 mb-2 border-bottom text-white sp-bg-primary">
+            <h1 class="text-center">Loan Estimation Tool</h1>
+        </div>
+    </div>
 	
-	<p>Fill out the short form below to get a quick estimate on a loan</p>
+    <div class="row">
+        <div class="col-12 pt-2 mb-3 border-bottom">
+            <p>Fill out the short form below to get a quick estimate on a loan</p>
+        </div>
+    </div>
 	
-	<div class="content">
-		{{ form(form) }}
-	</div>
+    <div class="row">
+        <div class="col-1"></div>
+
+        <div class="content col-10">
+            {{ form(form) }}
+        </div>
+
+        <div class="col-1"></div>
+    </div>
 
 	<div class="results">
 	{% if formErrors %}
