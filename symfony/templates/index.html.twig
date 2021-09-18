@@ -40,6 +40,11 @@
 
                 <table class="col-8 mt-2 pb-0 mb-0 table table-sm table-responsive-md table-borderless">
                     <tr>
+                        <td>Loan Amount:</td>
+                        <td>${{ loanData.amount | number_format(2) }}</td>
+                    </tr>
+
+                    <tr>
                         <td>Origination Fee:</td>
                         <td>${{ loanData.fee }}</td>
                     </tr>
@@ -54,6 +59,45 @@
                         <td>${{ loanData.payment | number_format(2) }}</td>
                     </tr>
                 </table>
+
+                <div class="mt-2">
+                    <div class="card card-header">
+                        <a class="position-relative sp-card-header" data-toggle="collapse" href="#amortization" role="button" aria-expanded="false" aria-controls="amortization">
+                            <span>Amortization</span>
+                            <span class="justify-right">
+                                <i class="bi bi-chevron-down"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="collapse" id="amortization">
+                        <div class="card card-header">
+                            <table class="table table-sm table-responsive-md table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Principal</th>
+                                        <th>Interest paid</th>
+                                        <th>Principal paid</th>
+                                        <th>Total payment</th>
+                                    <tr>
+                                </thead>
+
+                                <tbody>
+                                {% for r in loanData.amortization %}
+                                    <tr>
+                                        <td><strong>{{ loop.index }}</strong></td>
+                                        <td>${{ r.principal | number_format(2) }}</td>
+                                        <td>${{ r.interestPayment | number_format(2) }}</td>
+                                        <td>${{ r.principalPayment | number_format(2) }}</td>
+                                        <td>${{ r.totalPayment | number_format(2) }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-1"></div>
@@ -69,8 +113,5 @@
 
         <div class="col-1"></div>
     </div>
-
-	<div class="results">
-	</div>
 
 {% endblock %}

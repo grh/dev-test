@@ -46,5 +46,41 @@ class LoanCalculator
 		
 		return round($monthly_payment, 2);
 	}
-	
+
+	/**
+	 * @param  int  $principal
+	 * @param  float  $interestRate
+	 * @param  float  $payment
+	 * @param  int  $term
+	 *
+	 * @return array
+	 */
+    public function getAmortization(int $principal, float $interestRate, float $payment, int $term): array
+    {
+        $result = array();
+
+        $monthlyInterestRate = $interestRate / (12 * 100);
+
+        for ($i = 0; $i < $term; $i++)
+        {
+            $interestPayment = $principal * $monthlyInterestRate;
+            $principalPayment = $payment - $interestPayment;
+
+            if ($principalPayment >= $principal)
+            {
+                $principalPayment = $principal;
+            }
+
+            $result[] = array(
+                "principal" => $principal, 
+                "interestPayment" => $interestPayment,
+                "principalPayment" => $principalPayment,
+                "totalPayment" => $principalPayment + $interestPayment
+            );
+
+            $principal -= $principalPayment;
+        }
+
+        return $result;
+    }
 }

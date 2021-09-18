@@ -6,7 +6,8 @@ use Exception;
 
 class LoanParameter
 {
-	//  In a real application these options would come from either the database or another component, for the purpose of this exercise repeating them helps to keep the scope limited
+    //  In a real application these options would come from either the database or another component, 
+    //  for the purpose of this exercise repeating them helps to keep the scope limited
 	private $creditOptions = ['poor', 'average', 'good', 'excellent'];
 	
 	/**
@@ -82,5 +83,4 @@ class LoanParameter
 			return round( 250 + ( ($amount - 5000) * 0.02) );
 		}
 	}
-	
 }
