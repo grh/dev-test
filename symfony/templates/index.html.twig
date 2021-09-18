@@ -8,7 +8,7 @@
 {% block body %}
 
     <div class="row">
-        <div class="col-12 pb-2 pt-2 pl-2 mb-2 border-bottom text-white sp-bg-primary">
+        <div class="col-12 pb-2 pt-2 pl-2 mb-2 sp-bg-primary">
             <h1 class="text-center">Loan Estimation Tool</h1>
         </div>
     </div>
@@ -18,7 +18,50 @@
             <p>Fill out the short form below to get a quick estimate on a loan</p>
         </div>
     </div>
+
+    {% if formErrors %}
+        <div class="row">
+            <div class="col-1"></div>
+
+            <div class="col-10 alert alert-danger alert-dismissable fade show">
+                {% for error in formErrors %}
+                    <span>{{ error }} <button type="button" class="close" data-dismiss="alert">&times;</button></span>
+                {% endfor %}
+            </div>
+
+            <div class="col-1"></div>
+        </div>
+    {% endif %}
 	
+	{% if loanData %}
+        <div class="row">
+            <div class="col-1"></div>
+
+            <div class="col-10 alert alert-success alert-dismissable fade show">
+                <span><strong>Your Estimated loan:</strong> <button type="button" class="close" data-dismiss="alert">&times;</button></span>
+
+                <table class="col-8 mt-2 pb-0 mb-0 table table-sm table-responsive-md table-borderless">
+                    <tr>
+                        <td>Origination Fee:</td>
+                        <td>${{ loanData.fee }}</td>
+                    </tr>
+                        <td>Interest Rate:</td> 
+                        <td>{{ loanData.interestRate }}%</td>
+                    <tr>
+
+                    </tr>
+
+                    <tr>
+                        <td>Monthly Payment:</td> 
+                        <td>${{ loanData.payment | number_format(2) }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-1"></div>
+        </div>
+	{% endif %}
+
     <div class="row">
         <div class="col-1"></div>
 
@@ -30,18 +73,6 @@
     </div>
 
 	<div class="results">
-	{% if formErrors %}
-		{% for error in formErrors %}
-			<p>{{ error }}</p>
-		{% endfor %}
-	{% elseif loanData %}
-		<h2>Your Estimated loan:</h2>
-		<ul>
-			<li>Origination Fee: ${{ loanData.fee }}</li>
-			<li>Interest Rate: {{ loanData.interestRate }}%</li>
-			<li>Monthly Payment: ${{ loanData.payment | number_format(2) }}</li>
-		</ul>
-	{% endif %}
 	</div>
 
 {% endblock %}

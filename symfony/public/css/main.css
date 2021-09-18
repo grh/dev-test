@@ -1,1 +1,2 @@
-.sp-bg-primary {background-color: #800000;}
+.sp-bg-primary {border-bottom: thick solid #800000;}
+label {font-weight: bold;}
