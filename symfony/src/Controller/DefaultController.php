@@ -9,13 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\LoanParameter;
 use App\Service\LoanCalculator;
+use Knp\Snappy\Pdf;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * @Route("/")
  */
 class DefaultController extends AbstractController
 {
-	
 	/**
 	 * @Route("/", name="home")
 	 */
@@ -41,8 +44,10 @@ class DefaultController extends AbstractController
 			}
 			
 			
-			if (empty($formErrors)) {
-				try {
+            if (empty($formErrors)) 
+            {
+                try 
+                {
 					$interestRate = $loanParameterService->getInterestRate($data['term'], $data['creditScore']);
 					
 					$fee = $loanParameterService->getOriginationFee($data['amount']);
@@ -58,16 +63,23 @@ class DefaultController extends AbstractController
                     }
 					
                     $loanData['amount'] = $data['amount'];
+                    $loanData['term'] = $data['term'];
+                    $loanData['monthlyGrossIncome'] = $data['monthlyGrossIncome'];
+                    $loanData['creditScore'] = $data['creditScore'];
 					$loanData['interestRate'] = $interestRate;
 					$loanData['fee'] = $fee;
 					$loanData['payment'] = $payment;
                     $loanData['amortization'] = $amortization;
-				} catch (\Exception $e) {
+                } 
+                catch (\Exception $e) 
+                {
 					$formErrors = ['Please check your inputs and resubmit the form'];
 				}
 			}
 		}
-		
+
+        $_SESSION['loanData'] = $loanData;
+
 		return $this->render(
 			'index.html.twig',
 			[
@@ -78,5 +90,38 @@ class DefaultController extends AbstractController
 		);
 	}
 	
-	
+	/**
+	 * @Route("/pdf", name="pdf")
+	 */
+	public function pdf(Request $request, Pdf $knpSnappyPdf, MailerInterface $mailer): RedirectResponse
+    {
+        $pdfPath = sys_get_temp_dir() . '/results.pdf';
+        $to = $request->request->get('email');
+        $from = 'no-reply@smartpayrentals.com';
+        $subject = 'Your SmartPay Loan Estimate!';
+        $text = 'Attached are the results of your loan estimate.';
+
+        $knpSnappyPdf->generateFromHtml(
+            $this->render(
+                'pdf.html.twig',
+                [
+                    'loanData' => $_SESSION['loanData']
+                ]
+            ),
+            $pdfPath,
+            array(),
+            True
+        );
+
+        $email = (new Email())
+            ->from($from)
+            ->to($to)
+            ->subject($subject)
+            ->text($text)
+            ->attachFromPath($pdfPath);
+
+        $mailer->send($email);
+
+        return $this->redirectToRoute('home');
+    }
 }
