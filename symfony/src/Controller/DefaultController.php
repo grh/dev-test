@@ -48,6 +48,12 @@ class DefaultController extends AbstractController
 					$fee = $loanParameterService->getOriginationFee($data['amount']);
 					
 					$payment = $loanCalculatorService->getMonthlyPayment($data['amount'] + $fee, $interestRate, $data['term']);
+
+                    // Check payment <= 15% of monthly income
+                    if ($payment > $data['monthlyGrossIncome'] * 0.15)
+                    {
+                        $formErrors[] = "Monthly loan payment of \$$payment exceeds 15% of your monthly income";
+                    }
 					
 					$loanData['interestRate'] = $interestRate;
 					$loanData['fee'] = $fee;
