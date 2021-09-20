@@ -1,3 +1,8 @@
+# grh Notes
+
+* Task 3 appears to have already been completed (?)
+* I assumed wkhtmltopdf and sendmail on the backend for Task 5
+
 # SmartPay Developer Test
 
 This is a simple web application that displays estimated loan details for a user.  There are no database requirements, so setup should be fairly simple.  To use the Symfony server, you will need to install the [symfony cli](https://symfony.com/download).
