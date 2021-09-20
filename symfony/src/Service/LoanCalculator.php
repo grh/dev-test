@@ -17,19 +17,8 @@ class LoanCalculator
 	 */
 	public function getMonthlyPayment(int $principal, float $interestRate, int $term): float
 	{
-		//	Check for valid term
-		if ($term < 0) {
-			throw new Exception('invalid term');
-		}
-		
-		if ($interestRate < 0) {
-			throw new Exception('invalid Interest rate');
-		}
-		
-		if ($principal < 0) {
-			throw new Exception('invalid principal amount');
-		}
-		
+        $this->checkParams($principal, $interestRate, $term);
+
 		//  special case when full principal needs would be due immediately (prevents division by zero)
 		if ($term == 0) {
 			return $principal;
@@ -57,11 +46,13 @@ class LoanCalculator
 	 */
     public function getAmortization(int $principal, float $interestRate, float $payment, int $term): array
     {
+        $this->checkParams($principal, $interestRate, $term);
+
         $result = array();
 
-        $monthlyInterestRate = $interestRate / (12 * 100);
+        $monthlyInterestRate = ($interestRate / 100) / 12;
 
-        for ($i = 0; $i < $term; $i++)
+        while ($principal > 0)
         {
             $interestPayment = $principal * $monthlyInterestRate;
             $principalPayment = $payment - $interestPayment;
@@ -82,5 +73,21 @@ class LoanCalculator
         }
 
         return $result;
+    }
+
+    private function checkParams(int $principal, float $interestRate, int $term): void
+    {
+		//	Check for valid term
+		if ($term < 0) {
+			throw new Exception('invalid term');
+		}
+		
+		if ($interestRate < 0) {
+			throw new Exception('invalid Interest rate');
+		}
+		
+		if ($principal < 0) {
+			throw new Exception('invalid principal amount');
+		}
     }
 }

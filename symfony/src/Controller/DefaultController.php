@@ -54,7 +54,7 @@ class DefaultController extends AbstractController
 					
 					$payment = $loanCalculatorService->getMonthlyPayment($data['amount'] + $fee, $interestRate, $data['term']);
 
-                    $amortization = $loanCalculatorService->getAmortization($data['amount'], $interestRate, $payment, $data['term']);
+                    $amortization = $loanCalculatorService->getAmortization($data['amount'] + $fee, $interestRate, $payment, $data['term']);
 
                     // Check if payment exceeds 15% of monthly income
                     if ($payment > $data['monthlyGrossIncome'] * 0.15)
