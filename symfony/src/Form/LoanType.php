@@ -38,13 +38,25 @@ class LoanType extends AbstractType
 			    ],
 		    ])
 		    ->add('creditScore', ChoiceType::class, [
-		    	//  In a real application these options would come from either the database or another component, for the purpose of this exercise repeating them helps to keep the scope limited 
+                //  In a real application these options would come from either the database or another component, 
+                //  for the purpose of this exercise repeating them helps to keep the scope limited 
 			    'choices'  => [
 				    'Poor (350-629)' => 'poor',
 				    'Average (630-689)' => 'average',
 				    'Good (690-719)' => 'good',
 				    'Excellent (720-850)' => 'excellent',
 			    ],
+		    ])
+		    ->add('monthlyGrossIncome', MoneyType::class, [
+		    	'currency' => 'usd',
+		    	'html5' => true,
+		    	'attr' => [
+		    		'min' => 0,
+				    'step' => 100,
+			    ],
+	            //  Whole dollars only
+	            'scale' => 0,
+			    'invalid_message' => 'Please Enter a value',
 		    ])
 		    ->add('submit', SubmitType::class, [
 		    	'label' => 'Submit'

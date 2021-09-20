@@ -1,0 +1,9 @@
+.sp-bg-primary {border-bottom: thick solid #800000;}
+label {font-weight: bold;}
+.position-relative {position: relative;}
+.position-relative .justify-right {position: absolute; right: 0;}
+.sp-card-header {font-weight: bolder; color: inherit;}
+a.sp-card-header:link {text-decoration: none;}
+a.sp-card-header:visited {text-decoration: none;}
+a.sp-card-header:hover {text-decoration: none; color: inherit;}
+a.sp-card-header:active {text-decoration: none; }

@@ -7,27 +7,115 @@
 
 {% block body %}
 
-	<h1>Loan Estimation Tool</h1>
+    <div class="row">
+        <div class="col-12 pb-2 pt-2 pl-2 mb-2 sp-bg-primary">
+            <h1 class="text-center">Loan Estimation Tool</h1>
+        </div>
+    </div>
 	
-	<p>Fill out the short form below to get a quick estimate on a loan</p>
-	
-	<div class="content">
-		{{ form(form) }}
-	</div>
+    <div class="row">
+        <div class="col-12 pt-2 mb-3 border-bottom">
+            <p>Fill out the short form below to get a quick estimate on a loan</p>
+        </div>
+    </div>
 
-	<div class="results">
-	{% if formErrors %}
-		{% for error in formErrors %}
-			<p>{{ error }}</p>
-		{% endfor %}
+    {% if formErrors %}
+        <div class="row">
+            <div class="col-1"></div>
+
+            <div class="col-10 alert alert-danger alert-dismissable fade show">
+                {% for error in formErrors %}
+                    <span>{{ error }} <button type="button" class="close" data-dismiss="alert">&times;</button></span>
+                {% endfor %}
+            </div>
+
+            <div class="col-1"></div>
+        </div>
 	{% elseif loanData %}
-		<h2>Your Estimated loan:</h2>
-		<ul>
-			<li>Origination Fee: ${{ loanData.fee }}</li>
-			<li>Interest Rate: {{ loanData.interestRate }}%</li>
-			<li>Monthly Payment: ${{ loanData.payment | number_format(2) }}</li>
-		</ul>
+        <div class="row">
+            <div class="col-1"></div>
+
+            <div class="col-10 alert alert-success alert-dismissable fade show">
+                <span><strong>Your Estimated loan:</strong> <button type="button" class="close" data-dismiss="alert">&times;</button></span>
+
+                <table class="col-8 mt-2 pb-0 mb-0 table table-sm table-responsive-md table-borderless">
+                    <tr>
+                        <td>Loan Amount:</td>
+                        <td>${{ loanData.amount | number_format(2) }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Origination Fee:</td>
+                        <td>${{ loanData.fee }}</td>
+                    </tr>
+                        <td>Interest Rate:</td> 
+                        <td>{{ loanData.interestRate }}%</td>
+                    <tr>
+
+                    </tr>
+
+                    <tr>
+                        <td>Monthly Payment:</td> 
+                        <td>${{ loanData.payment | number_format(2) }}</td>
+                    </tr>
+                </table>
+
+                <div class="mt-2">
+                    <div class="card card-header">
+                        <a class="position-relative sp-card-header" data-toggle="collapse" href="#amortization" role="button" aria-expanded="false" aria-controls="amortization">
+                            <span>Amortization</span>
+                            <span class="justify-right">
+                                <i class="bi bi-chevron-down"></i>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="collapse" id="amortization">
+                        <div class="card card-header">
+                            <table class="table table-sm table-responsive-md table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Principal</th>
+                                        <th>Interest paid</th>
+                                        <th>Principal paid</th>
+                                        <th>Total payment</th>
+                                    <tr>
+                                </thead>
+
+                                <tbody>
+                                {% for r in loanData.amortization %}
+                                    <tr>
+                                        <td><strong>{{ loop.index }}</strong></td>
+                                        <td>${{ r.principal | number_format(2) }}</td>
+                                        <td>${{ r.interestPayment | number_format(2) }}</td>
+                                        <td>${{ r.principalPayment | number_format(2) }}</td>
+                                        <td>${{ r.totalPayment | number_format(2) }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <a class="sp-email-input" href="#"><i class="bi bi-envelope"></i>&nbsp;&nbsp;<span>Email my results!</span></a>
+                </div>
+            </div>
+
+            <div class="col-1"></div>
+        </div>
 	{% endif %}
-	</div>
+
+    <div class="row">
+        <div class="col-1"></div>
+
+        <div class="content col-10">
+            {{ form(form) }}
+        </div>
+
+        <div class="col-1"></div>
+    </div>
 
 {% endblock %}
